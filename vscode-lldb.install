@@ -1,0 +1,17 @@
+post_install() {
+    # Change owner
+    chown -R root:root /opt/vscode-lldb
+    # syslink vscode-lldb to /usr/bin
+    ln -rs /opt/vscode-lldb/adapter/codelldb /usr/bin/codelldb
+    # symlink /usr/{bin,lib} to vscode-lldb folder
+    ln -s /usr/lib /opt/vscode-lldb/lldb/
+    ln -s /usr/bin /opt/vscode-lldb/lldb/
+}
+pre_remove() {
+    unlink /opt/vscode-lldb/lldb/bin
+    unlink /opt/vscode-lldb/lldb/lib
+}
+post_remove() {
+    # remove symlink
+    rm /usr/bin/codelldb
+}
